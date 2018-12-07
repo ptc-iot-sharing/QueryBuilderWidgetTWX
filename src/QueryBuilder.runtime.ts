@@ -210,21 +210,21 @@ class QueryBuilder extends TWRuntimeWidget {
         (<any>this.jqElement).queryBuilder({filters});
         this.jqElement.on('rulesChanged.queryBuilder', event => {
             let rules: RuleGroup = (<any>this.jqElement).queryBuilder('getRules');
+            let query;
 
-            if (!rules) return;
-
-            let query = {
-                filters: {
-                    type: rules.condition,
-                    filters: []
-                }
-            };
-
-            this.convertRules(rules.rules, {toThingworxQueryArray: query.filters.filters});
+            if (rules) {
+                query = {
+                    filters: {
+                        type: rules.condition,
+                        filters: []
+                    }
+                };
+                this.convertRules(rules.rules, {toThingworxQueryArray: query.filters.filters});
+            } else {
+                query = {};
+            }
             this.setProperty('Query', query);
             this.jqElement.triggerHandler('QueryChanged');
-
-            console.log(JSON.stringify(query, undefined, 8));
         });
     }
 
