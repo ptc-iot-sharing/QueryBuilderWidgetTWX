@@ -1,0 +1,169 @@
+.query-builder {
+    align-items: flex-start !important;
+}
+
+.query-builder .btn {
+    font-size: 12px !important;
+    font-weight: bold;
+    padding: 4px 8px !important;
+}
+
+.query-builder .btn, .query-builder .btn:hover,
+/* Airbus specific */
+.dhxlist-dropdown-current-selection-container {
+    color: #545454 !important;
+    background-color: #f4f3f3 !important;
+    border-color: #c3c3c3 !important;
+    border-right-width: 2px !important;
+    border-radius: 0px !important;
+    border-bottom-width: 2px !important;
+}
+
+.query-builder .btn:active,
+.dhxlist-dropdown-current-selection-container:active {
+    background-color: #cfcfcf !important;
+}
+
+#root_dhxlist-52.twx-transparent-border.widget-content.widget-dhxdropdown {
+    border: none !important;
+}
+
+.widget-dhxdropdown {
+    border: none !important;
+}
+
+.dhxlist-dropdown-btn {
+    border: none !important;
+    background: none !important;
+}
+
+.dhxlist-dropdown-btn img {
+    filter: invert(100%);
+}
+
+.dhxlist-dropdown-current-selection-container {
+    font-size: 12px !important;
+    font-weight: bold !important;
+    padding: 0px 8px !important;
+}
+
+.widget-gridadvanced .objbox table {
+    overflow: auto !important;
+}
+
+.query-builder .btn-danger, .query-builder .btn-danger:hover {
+    color: #fff !important;
+    background-color: #c82333 !important;
+    border-color: #bd2130 !important;
+}
+
+.query-builder .btn-danger:active {
+    color: #fff !important;
+    background-color: #a31725 !important;
+    border-color: #9b1724 !important;
+}
+
+.query-builder .btn-primary.active {
+    background-color: #cfcfcf !important;
+}
+
+.rules-group-container {
+    width: 100%;
+    border: none !important;
+    background: rgba(0, 0, 0, .05) !important;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, .1), 0px 0px 1px 1px rgba(0, 0, 0, .1);
+}
+
+.rule-container {
+    border: none !important;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, .1), 0px 0px 1px 1px rgba(0, 0, 0, .1);
+}
+
+.query-builder > .rules-group-container {
+    border: none !important;
+    background: none !important;
+    box-shadow: none !important;
+}
+
+.query-builder .rule-header {
+    float: left;
+    margin-right: 8px !important;
+}
+
+.query-builder .rule-header .btn {
+    height: 24px !important;
+    padding: 0px 8px !important;
+
+    line-height: 24px !important;
+    vertical-align: middle !important;
+}
+
+.query-builder .form-control {
+    font-size: 12px !important;
+    height: 24px !important;
+}
+
+.widget-gridadvanced .gridbox {
+    width: 100% !important;
+}
+
+.widget-gridadvanced  .xhdr, .widget-gridadvanced  .xhdr td {
+    background-color: #333 !important;
+    color: white !important;
+  }
+  
+  .widget-gridadvanced  .xhdr td {
+    border-color: rgba(255, 255, 255, .05) !important;
+  }
+  
+  .widget-gridadvanced  .hdrcell.filter {
+    overflow: visible !important;
+  }
+  
+  .widget-gridadvanced  .hdrcell.filter > input {
+    border-radius: 4px !important;
+    border: 1px solid rgba(0, 0, 0, .8);
+    transition: border .2s ease, box-shadow .2s ease;
+  }
+  
+  .widget-gridadvanced  .hdrcell.filter > input:focus {
+    border-radius: 4px !important;
+    border: 1px solid rgba(0, 128, 255, 1);
+    box-shadow: 0px 0px 8px rgba(0, 128, 255, .5);
+  }
+  
+  .widget-gridadvanced  tr.ev_material {
+    background-color: rgba(0, 0, 0, .05);
+  }
+
+  @keyframes entry {
+    from {
+          transform: translateX(100%);
+          opacity: 0;
+    }
+    to {
+        transform: none;
+        opacity: 1;
+    }
+  }
+
+  .widget-gridadvanced tr.ev_material, .widget-gridadvanced tr.odd_material {
+    animation-name: entry;
+    animation-duration: .3s;
+    animation-timing-function: ease-out;
+  }
+  
+  
+  .widget-gridadvanced  tr.rowselected > td {
+    background-color: rgba(0, 0, 0, .15) !important;
+  }
+  
+  .widget-gridadvanced  .objbox td {
+    border-color: rgba(0, 0, 0, .05) !important;
+  }
+
+  .widget-gridadvanced .hdr th::before {
+      width: 100px;
+      content: '';
+      display: block;
+  }
