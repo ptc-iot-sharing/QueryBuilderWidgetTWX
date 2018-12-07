@@ -7,13 +7,13 @@
     "thingworxPassword": "Administrator",
     "author": "Thingworx RoIcenter",
     "minimumThingWorxVersion": "6.0.0",
-    "homepage": "http://roicentersvn/BogdanMihaiciuc/QueryBuilder",
+    "homepage": "http://roicentersvn/placatus/QueryBuilder",
     "autoUpdate": {
-        "giteaURL": "http://roicentersvn/api/v1/repos/BogdanMihaiciuc/QueryBuilder/releases/latest"
+        "giteaURL": "http://roicentersvn/api/v1/repos/placatus/QueryBuilder/releases/latest"
     },
     "repository": {
         "type": "git",
-        "url": "http://roicentersvn.ptcnet.ptc.com/BogdanMihaiciuc/QueryBuilder.git"
+        "url": "http://roicentersvn.ptcnet.ptc.com/placatus/QueryBuilder.git"
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
