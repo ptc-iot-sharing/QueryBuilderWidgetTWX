@@ -99,7 +99,28 @@ class QueryBuilder extends TWRuntimeWidget {
 
         return filter;
     }
-    
+
+    onQueryChanged = (event) => {
+        let rules: RuleGroup = (<any>this.jqElement).queryBuilder('getRules', {skip_empty: true, allow_invalid: true});
+        let query;
+
+        if (rules) {
+            query = {
+                filters: {
+                    type: rules.condition,
+                    filters: []
+                }
+            };
+            this.convertRules(rules.rules, {toThingworxQueryArray: query.filters.filters});
+        } else {
+            query = {};
+        }
+        this.setProperty('Query', query);
+        if((rules && rules.valid) || (rules.rules.length == 0 && !rules.valid)) {
+            this.jqElement.triggerHandler('QueryChanged');
+        }
+    }
+
     convertRules(rules: (Rule | RuleGroup)[], {toThingworxQueryArray: filters}: {toThingworxQueryArray: any[]}): void {
         for (let rule of rules) {
             if (isRuleGroup(rule)) {
@@ -133,22 +154,16 @@ class QueryBuilder extends TWRuntimeWidget {
 
         // Check to see if an update is required
         if (this.dataShape) {
-            let identicalDataShapes = true;
-            let currentKeys: string[], newKeys: string[];
-            let currentLength = (currentKeys = Object.keys(this.dataShape.fieldDefinitions)).length;
-            if (currentLength == (newKeys = Object.keys(data.dataShape.fieldDefinitions)).length) {
-                for (let key of currentKeys) {
-                    if (!(key in data.dataShape.fieldDefinitions)) {
-                        identicalDataShapes = false;
-                        break;
-                    }
-                }
-            }
+            let currentKeys = Object.keys(this.dataShape.fieldDefinitions).sort();
+            let newKeys = Object.keys(data.dataShape.fieldDefinitions).sort();
+            let identicalDataShapes = JSON.stringify(currentKeys) === JSON.stringify(newKeys);
 
             if (identicalDataShapes) return;
-
+            // remove the existing listener since it will crash anyway
+            this.jqElement.off('rulesChanged.queryBuilder', this.onQueryChanged);
             (<any>this.jqElement).queryBuilder('destroy');
             this.setProperty('Query', undefined);
+            this.jqElement.triggerHandler('QueryChanged');
         }
 
         this.dataShape = data.dataShape;
@@ -209,26 +224,7 @@ class QueryBuilder extends TWRuntimeWidget {
         }
 
         (<any>this.jqElement).queryBuilder({filters});
-        this.jqElement.on('rulesChanged.queryBuilder', event => {
-            let rules: RuleGroup = (<any>this.jqElement).queryBuilder('getRules', {skip_empty: true, allow_invalid: true});
-            let query;
-
-            if (rules) {
-                query = {
-                    filters: {
-                        type: rules.condition,
-                        filters: []
-                    }
-                };
-                this.convertRules(rules.rules, {toThingworxQueryArray: query.filters.filters});
-            } else {
-                query = {};
-            }
-            this.setProperty('Query', query);
-            if((rules && rules.valid) || (rules.rules.length == 0 && !rules.valid)) {
-                this.jqElement.triggerHandler('QueryChanged');
-            }
-        });
+        this.jqElement.on('rulesChanged.queryBuilder', this.onQueryChanged);
     }
 
     renderHtml(): string {
