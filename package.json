@@ -1,10 +1,10 @@
 {
     "name": "QueryBuilder",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Query Builder",
-    "thingworxServer": "http://10.128.49.183:8015",
+    "thingworxServer": "http://localhost:8016",
     "thingworxUser": "Administrator",
-    "thingworxPassword": "trUf6yuz2?_Gub",
+    "thingworxPassword": "Administrator",
     "author": "Thingworx RoIcenter",
     "minimumThingWorxVersion": "6.0.0",
     "homepage": "http://roicentersvn/BogdanMihaiciuc/QueryBuilder",
