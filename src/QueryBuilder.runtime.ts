@@ -11,7 +11,8 @@ interface Rule {
 
 interface RuleGroup {
     condition: 'AND' | 'OR',
-    rules: (Rule | RuleGroup)[]
+    rules: (Rule | RuleGroup)[],
+    valid: boolean
 }
 
 function isRuleGroup(obj: Rule | RuleGroup): obj is RuleGroup {
@@ -209,7 +210,7 @@ class QueryBuilder extends TWRuntimeWidget {
 
         (<any>this.jqElement).queryBuilder({filters});
         this.jqElement.on('rulesChanged.queryBuilder', event => {
-            let rules: RuleGroup = (<any>this.jqElement).queryBuilder('getRules');
+            let rules: RuleGroup = (<any>this.jqElement).queryBuilder('getRules', {skip_empty: true, allow_invalid: true});
             let query;
 
             if (rules) {
@@ -224,7 +225,9 @@ class QueryBuilder extends TWRuntimeWidget {
                 query = {};
             }
             this.setProperty('Query', query);
-            this.jqElement.triggerHandler('QueryChanged');
+            if((rules && rules.valid) || (rules.rules.length == 0 && !rules.valid)) {
+                this.jqElement.triggerHandler('QueryChanged');
+            }
         });
     }
 
