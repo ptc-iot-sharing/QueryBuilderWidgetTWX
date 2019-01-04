@@ -230,8 +230,7 @@ class QueryBuilder extends TWRuntimeWidget {
     renderHtml(): string {
         require("./styles/runtime.css");
         require("./styles/query-builder.default.min.css");
-        require('bootstrap');
-        require('bootstrap/dist/css/bootstrap.css');
+        require("./styles/no-bootstrap.css");
         require('jQuery-QueryBuilder');
         return '<div class="widget-content widget-demo"></div>';
     };
