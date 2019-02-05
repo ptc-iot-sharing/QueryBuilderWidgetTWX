@@ -1,18 +1,25 @@
 import { ThingworxRuntimeWidget, TWService, TWProperty } from 'typescriptwebpacksupport'
+import { queryToObject } from './twxQueryToQueryBuilder';
 
-interface Rule {
-    id: string,
+export interface Rule {
+    id?: string,
     field: string,
-    type: string,
-    input: string,
+    type?: string,
+    input?: string,
     operator: string,
     value: any
 }
 
-interface RuleGroup {
+export interface RuleGroup {
     condition: 'AND' | 'OR',
     rules: (Rule | RuleGroup)[],
-    valid: boolean
+    valid?: boolean
+}
+
+export interface TwxQuery {
+    fieldName?: string;
+    filters?: TwxQuery[] | TwxQuery;
+    type: string;
 }
 
 function isRuleGroup(obj: Rule | RuleGroup): obj is RuleGroup {
@@ -51,7 +58,7 @@ class QueryBuilder extends TWRuntimeWidget {
             fieldName: rule.field,
             type: ThingworxTypeMap[rule.operator]
         }
-    
+
         switch (rule.operator) {
             case 'equal':
             case 'not_equal':
@@ -101,7 +108,10 @@ class QueryBuilder extends TWRuntimeWidget {
     }
 
     onQueryChanged = (event) => {
-        let rules: RuleGroup = (<any>this.jqElement).queryBuilder('getRules', {skip_empty: true, allow_invalid: true});
+        if ((<any>this.jqElement).queryBuilder('getModel') == null) {
+            return;
+        }
+        let rules: RuleGroup = (<any>this.jqElement).queryBuilder('getRules', { skip_empty: true, allow_invalid: true });
         let query;
 
         if (rules) {
@@ -111,17 +121,17 @@ class QueryBuilder extends TWRuntimeWidget {
                     filters: []
                 }
             };
-            this.convertRules(rules.rules, {toThingworxQueryArray: query.filters.filters});
+            this.convertRules(rules.rules, { toThingworxQueryArray: query.filters.filters });
         } else {
             query = {};
         }
         this.setProperty('Query', query);
-        if((rules && rules.valid) || (rules.rules.length == 0 && !rules.valid)) {
+        if ((rules && rules.valid) || (rules.rules.length == 0 && !rules.valid)) {
             this.jqElement.triggerHandler('QueryChanged');
         }
     }
 
-    convertRules(rules: (Rule | RuleGroup)[], {toThingworxQueryArray: filters}: {toThingworxQueryArray: any[]}): void {
+    convertRules(rules: (Rule | RuleGroup)[], { toThingworxQueryArray: filters }: { toThingworxQueryArray: any[] }): void {
         for (let rule of rules) {
             if (isRuleGroup(rule)) {
                 let filter = {
@@ -130,7 +140,7 @@ class QueryBuilder extends TWRuntimeWidget {
                 };
                 filters.push(filter);
 
-                this.convertRules(rule.rules, {toThingworxQueryArray: filter.filters});
+                this.convertRules(rule.rules, { toThingworxQueryArray: filter.filters });
             }
             else {
                 let filter = this.thingworxFilterWithRule(rule);
@@ -139,12 +149,7 @@ class QueryBuilder extends TWRuntimeWidget {
         }
     }
 
-    @TWProperty('Query') 
-    set query(value: any) {
-        
-    };
-
-    @TWProperty('UseFieldDescriptions') 
+    @TWProperty('UseFieldDescriptions')
     set useDescriptions(use: boolean) {
 
     };
@@ -223,7 +228,7 @@ class QueryBuilder extends TWRuntimeWidget {
             }
         }
 
-        (<any>this.jqElement).queryBuilder({filters});
+        (<any>this.jqElement).queryBuilder({ filters });
         this.jqElement.on('rulesChanged.queryBuilder', this.onQueryChanged);
     }
 
@@ -236,16 +241,17 @@ class QueryBuilder extends TWRuntimeWidget {
     };
 
     async afterRender(): Promise<void> {
-        
+
     }
 
-    serviceInvoked(name: string): void {}
+    serviceInvoked(name: string): void { }
 
-    updateProperty(info: TWUpdatePropertyInfo): void {}
-
-    @TWService("TestService")
-    testService(): void {
-        alert("Called via binding");
+    updateProperty(info: TWUpdatePropertyInfo): void {
+        if (info.TargetProperty == "Query") {
+            // transforms the query into a QueryBuilderQuery and update the ui
+            (<any>this.jqElement).queryBuilder('setRules', queryToObject(<TwxQuery>info.RawSinglePropertyValue.filters).convertToRule());
+            this.jqElement.triggerHandler('QueryChanged');
+        }
     }
 
     beforeDestroy?(): void {
@@ -256,7 +262,7 @@ class QueryBuilder extends TWRuntimeWidget {
 setTimeout(function dhtml() {
 
     if ('dhtmlXGridObject' in window) {
-        (<any>window).dhtmlXGridObject.prototype._get_json_data = function(b, a) {
+        (<any>window).dhtmlXGridObject.prototype._get_json_data = function (b, a) {
             var c = b.data[a];
             if (typeof c == "object") {
                 return c ? c.value : ""
