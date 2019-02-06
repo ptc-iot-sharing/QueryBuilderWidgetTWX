@@ -53,6 +53,11 @@ class QueryBuilder extends TWRuntimeWidget {
      */
     dataShape: TWDataShape;
 
+    /**
+     * Is a query set in progress
+     */
+    queryUpdating: boolean;
+
     thingworxFilterWithRule(rule: Rule): any {
         let filter: any = {
             fieldName: rule.field,
@@ -108,7 +113,7 @@ class QueryBuilder extends TWRuntimeWidget {
     }
 
     onQueryChanged = (event) => {
-        if ((<any>this.jqElement).queryBuilder('getModel') == null) {
+        if (this.queryUpdating || (<any>this.jqElement).queryBuilder('getModel') == null) {
             return;
         }
         let rules: RuleGroup = (<any>this.jqElement).queryBuilder('getRules', { skip_empty: true, allow_invalid: true });
@@ -249,7 +254,10 @@ class QueryBuilder extends TWRuntimeWidget {
     updateProperty(info: TWUpdatePropertyInfo): void {
         if (info.TargetProperty == "Query") {
             // transforms the query into a QueryBuilderQuery and update the ui
+            this.queryUpdating = true;
             (<any>this.jqElement).queryBuilder('setRules', queryToObject(<TwxQuery>info.RawSinglePropertyValue.filters).convertToRule());
+            this.queryUpdating = false;
+            this.setProperty("Query", info.RawSinglePropertyValue);
             this.jqElement.triggerHandler('QueryChanged');
         }
     }
