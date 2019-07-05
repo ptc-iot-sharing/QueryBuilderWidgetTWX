@@ -45,6 +45,11 @@ class QueryBuilder extends TWComposerWidget {
                     baseType: 'BOOLEAN',
                     description: 'If enabled, the query builder will use descriptions when available, instead of field names.',
                     defaultValue: false
+                },
+                UseRowsAsValues: {
+                    baseType: 'BOOLEAN',
+                    description: 'If enabled, the query builder use the row contents to provide dropdowns for the STRING or TEXT columns.',
+                    defaultValue: false
                 }
             }
         };
@@ -67,7 +72,7 @@ class QueryBuilder extends TWComposerWidget {
     }
 
     renderHtml(): string {
-        return '<div class="widget-content widget-demo-viewer">test</div>';
+        return '<div class="widget-content widget-query-builder">Query Editor</div>';
     };
 
     afterRender(): void {
