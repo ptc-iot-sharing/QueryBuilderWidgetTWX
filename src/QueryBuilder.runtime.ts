@@ -159,6 +159,11 @@ class QueryBuilder extends TWRuntimeWidget {
 
     };
 
+    @TWProperty('UseRowsAsValues')
+    set useRowsAsValues(use: boolean) {
+
+    };
+
     @TWProperty('Data') set data(data: TWInfotable) {
         if (!data) return;
 
@@ -182,12 +187,20 @@ class QueryBuilder extends TWRuntimeWidget {
         for (let key in this.dataShape.fieldDefinitions) {
             switch (this.dataShape.fieldDefinitions[key].baseType) {
                 case 'STRING':
-                    filters.push({
+                case 'TEXT':
+                    let filter = {
                         id: key,
                         label: this.useDescriptions ? this.dataShape.fieldDefinitions[key].description || key : key,
-                        type: 'string',
-                        operators: ['equal', 'contains', 'begins_with', 'ends_with']
-                    });
+                        type: "string"
+                    };
+                    if (this.useRowsAsValues) {
+                        (<any>filter).values = data.rows.map((row) => row[key]);
+                        (<any>filter).operators = ['equal', 'not_equal'];
+                        (<any>filter).input = "select";
+                    } else {
+                        (<any>filter).operators = ['equal', "not_equal", 'contains', 'begins_with', 'ends_with'];
+                    }
+                    filters.push(filter);
                     break;
                 case 'NUMBER':
                     filters.push({
@@ -253,7 +266,7 @@ class QueryBuilder extends TWRuntimeWidget {
 
     updateProperty(info: TWUpdatePropertyInfo): void {
         if (info.TargetProperty == "Query") {
-            if(info.RawSinglePropertyValue) {
+            if (info.RawSinglePropertyValue) {
                 // transforms the query into a QueryBuilderQuery and update the ui
                 this.queryUpdating = true;
                 (<any>this.jqElement).queryBuilder('setRules', queryToObject(<TwxQuery>info.RawSinglePropertyValue.filters).convertToRule());
