@@ -2,18 +2,18 @@
     "name": "QueryBuilder",
     "version": "1.1.3",
     "description": "Query Builder",
-    "thingworxServer": "https://customerportal.optimaltrax.com",
-    "thingworxUser": "iqnox-dev1",
-    "thingworxPassword": "password10",
-    "author": "Thingworx RoIcenter",
+    "thingworxServer": "localhost",
+    "thingworxUser": "Administrator",
+    "thingworxPassword": "Administrator12356",
+    "author": "Thingworx RoIcenter placatus",
     "minimumThingWorxVersion": "6.0.0",
-    "homepage": "http://roicentersvn/placatus/QueryBuilder",
+    "homepage": "https://github.com/ptc-iot-sharing/QueryBuilderWidgetTWX",
     "autoUpdate": {
-        "giteaURL": "http://roicentersvn/api/v1/repos/placatus/QueryBuilder/releases/latest"
+        "gitHubURL": "https://api.github.com/repos/ptc-iot-sharing/QueryBuilderWidgetTWX/releases/latest"
     },
     "repository": {
         "type": "git",
-        "url": "http://roicentersvn.ptcnet.ptc.com/placatus/QueryBuilder.git"
+        "url": "https://github.com/ptc-iot-sharing/QueryBuilderWidgetTWX.git"
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
