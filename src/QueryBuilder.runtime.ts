@@ -76,6 +76,10 @@ class QueryBuilder extends TWRuntimeWidget {
             case 'greater_or_equal':
             case 'less':
             case 'less_or_equal':
+                if(rule.field.endsWith("__Age")) {
+                    filter.value = rule.value;
+                    break;
+                } 
                 switch (this.dataShape.fieldDefinitions[rule.id].baseType) {
                     case 'DATETIME':
                         filter.value = +moment(rule.value, 'DD/MM/YYYY HH:mm:ss');
@@ -101,6 +105,10 @@ class QueryBuilder extends TWRuntimeWidget {
                 break;
             case 'between':
             case 'not_between':
+                if(rule.field.endsWith("__Age")) {
+                    filter.value = rule.value;
+                    break;
+                } 
                 switch (this.dataShape.fieldDefinitions[rule.id].baseType) {
                     case 'DATETIME':
                         filter.from = +moment(rule.value[0], 'DD/MM/YYYY HH:mm:ss');
@@ -250,6 +258,14 @@ class QueryBuilder extends TWRuntimeWidget {
                         },
                         operators: ['equal', 'not_equal', 'greater', 'greater_or_equal', 'between', 'not_between', 'less', 'less_or_equal']
                     });
+                    if(this.getProperty("EnableDateTimeAgeFilter")) {
+                        filters.push({
+                            id: key + "__Age",
+                            label: "NOW() - " + label + "(in seconds)",
+                            type: 'integer',
+                            operators: ['equal', 'not_equal', 'greater', 'greater_or_equal', 'between', 'not_between', 'less', 'less_or_equal']
+                        });
+                    }
                     break;
                 default: continue;
             }

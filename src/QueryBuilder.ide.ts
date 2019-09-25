@@ -56,6 +56,12 @@ class QueryBuilder extends TWComposerWidget {
                     description: 'Number of allowed nested groups. Setting it to 0 will disable nested groups.',
                     isBindingTarget: true,
                     defaultValue: 1000
+                },
+                EnableDateTimeAgeFilter: {
+                    baseType: 'BOOLEAN',
+                    description: 'For each datetime field, creates an additional filter intended for the age value',
+                    isBindingTarget: false,
+                    defaultValue: false
                 }
             }
         };
