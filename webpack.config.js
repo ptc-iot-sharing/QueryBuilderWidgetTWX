@@ -249,7 +249,8 @@ module.exports = function (env, argv) {
                     'X-THINGWORX-SESSION': 'true'
                 },
                 body: {packageName: packageName},
-                json: true
+                json: true,
+                rejectUnauthorized: false
             },
             function (err, httpResponse, body) {
                 // load the file from the zip folder
@@ -266,7 +267,8 @@ module.exports = function (env, argv) {
                             headers: {
                                 'X-XSRF-TOKEN': 'TWX-XSRF-TOKEN-VALUE'
                             },
-                            formData: formData
+                            formData: formData,
+                            rejectUnauthorized: false
                         },
                         function (err, httpResponse, body) {
                             if (err) {
@@ -284,7 +286,7 @@ module.exports = function (env, argv) {
 
                 if (err) {
                     console.error("Failed to delete widget from thingworx");
-                    //throw err;
+                    throw err;
                 }
                 if (httpResponse.statusCode != 200) {
                     console.log(`Failed to delete widget from thingworx. We got status code ${httpResponse.statusCode} (${httpResponse.statusMessage})

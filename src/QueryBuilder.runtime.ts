@@ -235,14 +235,18 @@ class QueryBuilder extends TWRuntimeWidget {
                     });
                     break;
                 case 'DATETIME':
+                    let label = this.useDescriptions ? this.dataShape.fieldDefinitions[key].description || key : key;
                     filters.push({
                         id: key,
-                        label: this.useDescriptions ? this.dataShape.fieldDefinitions[key].description || key : key,
+                        label: label,
                         type: 'datetime',
                         plugin: 'datetimepicker',
                         plugin_config: {
                             timeFormat: 'hh:mm:ss',
                             dateFormat: 'dd/mm/yy'
+                        },
+                        valueSetter: (rule, value) => {
+                            rule.$el.find('input').val(moment(value).format("DD/MM/YYYY HH:mm:ss"));
                         },
                         operators: ['equal', 'not_equal', 'greater', 'greater_or_equal', 'between', 'not_between', 'less', 'less_or_equal']
                     });
@@ -251,7 +255,7 @@ class QueryBuilder extends TWRuntimeWidget {
             }
         }
 
-        (<any>this.jqElement).queryBuilder({ filters });
+        (<any>this.jqElement).queryBuilder({ filters, allow_groups: this.getProperty("AllowGroups") });
         this.jqElement.on('rulesChanged.queryBuilder', this.onQueryChanged);
         if(this.savedQuery) {
             this.updateProperty(<any>{
@@ -289,6 +293,7 @@ class QueryBuilder extends TWRuntimeWidget {
                 (<any>this.jqElement).queryBuilder('reset');
             }
         }
+        this.setProperty(info.TargetProperty, info.RawSinglePropertyValue);
     }
 
     beforeDestroy?(): void {

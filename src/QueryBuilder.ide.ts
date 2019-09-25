@@ -50,6 +50,12 @@ class QueryBuilder extends TWComposerWidget {
                     baseType: 'BOOLEAN',
                     description: 'If enabled, the query builder use the row contents to provide dropdowns for the STRING or TEXT columns.',
                     defaultValue: false
+                },
+                AllowGroups: {
+                    baseType: 'INTEGER',
+                    description: 'Number of allowed nested groups. Setting it to 0 will disable nested groups.',
+                    isBindingTarget: true,
+                    defaultValue: 1000
                 }
             }
         };
