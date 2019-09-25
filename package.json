@@ -1,6 +1,6 @@
 {
     "name": "QueryBuilder",
-    "version": "1.1.5",
+    "version": "1.1.7",
     "description": "Query Builder",
     "thingworxServer": "localhost",
     "thingworxUser": "Administrator",
@@ -52,7 +52,6 @@
     },
     "dependencies": {
         "ajv": "^6.5.5",
-        "eonasdan-bootstrap-datetimepicker": "^4.17.47",
         "jQuery-QueryBuilder": "^2.5.2",
         "popper.js": "^1.14.5",
         "typescriptwebpacksupport": "^1.1.0"
