@@ -270,8 +270,16 @@ class QueryBuilder extends TWRuntimeWidget {
                 default: continue;
             }
         }
+        let conditionsArray = [];
+        if(this.getProperty("AllowAnd") === undefined || this.getProperty("AllowAnd")) {
+            conditionsArray.push("AND");
+        }
+        if(this.getProperty("AllowOr") === undefined || this.getProperty("AllowOr")) {
+            conditionsArray.push("OR");
+        }
 
-        (<any>this.jqElement).queryBuilder({ filters, allow_groups: this.getProperty("AllowGroups") });
+
+        (<any>this.jqElement).queryBuilder({ filters, allow_groups: this.getProperty("AllowGroups"), conditions: conditionsArray });
         this.jqElement.on('rulesChanged.queryBuilder', this.onQueryChanged);
         if(this.savedQuery) {
             this.updateProperty(<any>{

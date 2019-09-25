@@ -62,6 +62,18 @@ class QueryBuilder extends TWComposerWidget {
                     description: 'For each datetime field, creates an additional filter intended for the age value',
                     isBindingTarget: false,
                     defaultValue: false
+                },
+                AllowAnd: {
+                    baseType: 'BOOLEAN',
+                    description: 'Allow for AND conditions',
+                    isBindingTarget: true,
+                    defaultValue: true
+                },
+                AllowOr: {
+                    baseType: 'BOOLEAN',
+                    description: 'Allow for OR conditions',
+                    isBindingTarget: true,
+                    defaultValue: true
                 }
             }
         };
