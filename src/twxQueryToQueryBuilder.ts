@@ -8,7 +8,7 @@ interface GenericTwxQuery {
 class ComparisonToQuery implements GenericTwxQuery {
     comparisionMap = {
         EQ: "equal",
-        NE: "non_equal",
+        NE: "not_equal",
         GT: "greater",
         GE: "greater_or_equal",
         LT: "less",
@@ -86,6 +86,7 @@ const queryClasses = {
     LE: ComparisonToQuery,
     GT: ComparisonToQuery,
     GE: ComparisonToQuery,
+    NE: ComparisonToQuery,
     BETWEEN: BetweenQuery,
     NOTBETWEEN: BetweenQuery,
     OR: GroupQuery,
