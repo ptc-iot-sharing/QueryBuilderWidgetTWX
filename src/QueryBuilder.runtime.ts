@@ -305,9 +305,9 @@ class QueryBuilder extends TWRuntimeWidget {
 
     updateProperty(info: TWUpdatePropertyInfo): void {
         if (info.TargetProperty == "Query") {
-            if (info.RawSinglePropertyValue) {
+            if (info.RawSinglePropertyValue && info.RawSinglePropertyValue.filters) {
                 this.savedQuery = info.RawSinglePropertyValue;
-                // transforms the query into a QueryBuilderQuery and update the ui
+                // transforms the query into a QueryBuilderQuery and update the UI
                 this.queryUpdating = true;
                 (<any>this.jqElement).queryBuilder('setRules', queryToObject(<TwxQuery>info.RawSinglePropertyValue.filters).convertToRule());
                 this.queryUpdating = false;
