@@ -254,7 +254,15 @@ class QueryBuilder extends TWRuntimeWidget {
                             dateFormat: 'dd/mm/yy'
                         },
                         valueSetter: (rule, value) => {
-                            rule.$el.find('input').val(moment(value).format("DD/MM/YYYY HH:mm:ss"));
+                            let inputs = rule.$el.find('input');
+                            if(inputs.length == 1) {
+                                // this is a normal range filter
+                                inputs.val(moment(value).format("DD/MM/YYYY HH:mm:ss"));
+                            } else if(inputs.length == 2 && value.length == 2) {
+                                // this is a between filter
+                                inputs.eq(0).val(moment(value[0]).format("DD/MM/YYYY HH:mm:ss"));
+                                inputs.eq(1).val(moment(value[1]).format("DD/MM/YYYY HH:mm:ss"));
+                            }
                         },
                         operators: ['equal', 'not_equal', 'greater', 'greater_or_equal', 'between', 'not_between', 'less', 'less_or_equal']
                     });
