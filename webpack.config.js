@@ -2,7 +2,7 @@
 var path = require('path');
 var fs = require('fs');
 var webpack = require('webpack');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 // enable cleaning of the build and zip directories
 var CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -118,8 +118,8 @@ module.exports = function (env, argv) {
     if (isProduction) {
         result.optimization = {
             minimizer: [
-                new UglifyJSPlugin({
-                    uglifyOptions: {
+                new TerserPlugin({
+                    terserOptions: {
                         beautify: false,
                         compress: true,
                         comments: false,
