@@ -74,6 +74,16 @@ class QueryBuilder extends TWComposerWidget {
                     description: 'Allow for OR conditions',
                     isBindingTarget: true,
                     defaultValue: true
+                },
+                ContainsValidQuery: {
+                    baseType: 'BOOLEAN',
+                    description: 'Is the current query valid',
+                    isBindingSource: true
+                },
+                IsQueryEmpty: {
+                    baseType: 'BOOLEAN',
+                    description: 'The current query is empty (no rules)',
+                    isBindingSource: true
                 }
             }
         };

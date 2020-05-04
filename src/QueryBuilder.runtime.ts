@@ -130,6 +130,7 @@ class QueryBuilder extends TWRuntimeWidget {
             return;
         }
         let rules: RuleGroup = (<any>this.jqElement).queryBuilder('getRules', { skip_empty: true, allow_invalid: true });
+        let {containsValidQuery, isQueryEmpty} = this.getQueryState(rules);
         let query;
 
         if (rules) {
@@ -143,10 +144,21 @@ class QueryBuilder extends TWRuntimeWidget {
         } else {
             query = {};
         }
+        this.setProperty("ContainsValidQuery", containsValidQuery);
+        this.setProperty("IsQueryEmpty", isQueryEmpty);
+
         this.setProperty('Query', query);
-        if ((rules && rules.valid) || (rules.rules.length == 0 && !rules.valid)) {
+        if (containsValidQuery || isQueryEmpty) {
             this.jqElement.triggerHandler('QueryChanged');
         }
+    }
+
+    getQueryState(rules: RuleGroup) {
+        return {
+            containsValidQuery: (rules && rules.valid),
+            isQueryEmpty: (rules.rules.length == 0 && !rules.valid)
+        }
+        
     }
 
     convertRules(rules: (Rule | RuleGroup)[], { toThingworxQueryArray: filters }: { toThingworxQueryArray: any[] }): void {
@@ -294,6 +306,9 @@ class QueryBuilder extends TWRuntimeWidget {
                 TargetProperty: "Query",
                 RawSinglePropertyValue: this.savedQuery
             })
+        } else {
+            this.setProperty("ContainsValidQuery", false);
+            this.setProperty("IsQueryEmpty", true);
         }
     }
 
@@ -306,7 +321,8 @@ class QueryBuilder extends TWRuntimeWidget {
     };
 
     async afterRender(): Promise<void> {
-
+        this.setProperty("ContainsValidQuery", false);
+        this.setProperty("IsQueryEmpty", true);
     }
 
     serviceInvoked(name: string): void { }
@@ -319,7 +335,13 @@ class QueryBuilder extends TWRuntimeWidget {
                 this.queryUpdating = true;
                 (<any>this.jqElement).queryBuilder('setRules', queryToObject(<TwxQuery>info.RawSinglePropertyValue.filters).convertToRule());
                 this.queryUpdating = false;
+                // determine if the query is valid and non empty
+                let rules = (<any>this.jqElement).queryBuilder('getRules', { skip_empty: true, allow_invalid: true });
+                let {containsValidQuery, isQueryEmpty} = this.getQueryState(rules);
+                this.setProperty("ContainsValidQuery", containsValidQuery);
+                this.setProperty("IsQueryEmpty", isQueryEmpty);
                 this.setProperty("Query", info.RawSinglePropertyValue);
+
                 this.jqElement.triggerHandler('QueryChanged');
             } else {
                 (<any>this.jqElement).queryBuilder('reset');
