@@ -352,6 +352,7 @@ class QueryBuilder extends TWRuntimeWidget {
 
     beforeDestroy?(): void {
         // resetting current widget
+        (<any>this.jqElement).queryBuilder('destroy');
     }
 }
 
