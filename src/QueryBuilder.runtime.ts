@@ -241,7 +241,11 @@ class QueryBuilder extends TWRuntimeWidget {
                         id: key,
                         label: this.useDescriptions ? this.dataShape.fieldDefinitions[key].description || key : key,
                         type: 'integer',
-                        operators: ['equal', 'not_equal', 'greater', 'greater_or_equal', 'between', 'not_between', 'less', 'less_or_equal']
+                        operators: ['equal', 'not_equal', 'greater', 'greater_or_equal', 'between', 'not_between', 'less', 'less_or_equal'],
+                        validation: {
+                            min: -2147483648,
+                            max: 2147483647
+                        }
                     });
                     break;
                 case 'BOOLEAN':
