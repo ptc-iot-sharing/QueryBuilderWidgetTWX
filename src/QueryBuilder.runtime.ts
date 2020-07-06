@@ -76,7 +76,7 @@ class QueryBuilder extends TWRuntimeWidget {
             case 'greater_or_equal':
             case 'less':
             case 'less_or_equal':
-                if(rule.field.endsWith("~Age~")) {
+                if(rule.field.endsWith("~AgeInDays~")) {
                     filter.value = rule.value;
                     break;
                 } 
@@ -105,7 +105,7 @@ class QueryBuilder extends TWRuntimeWidget {
                 break;
             case 'between':
             case 'not_between':
-                if (rule.field.endsWith("~Age~")) {
+                if (rule.field.endsWith("~AgeInDays~")) {
                     filter.from = rule.value[0];
                     filter.to = rule.value[1];
                     break;
@@ -285,7 +285,7 @@ class QueryBuilder extends TWRuntimeWidget {
                     });
                     if(this.getProperty("EnableDateTimeAgeFilter")) {
                         filters.push({
-                            id: key + "~Age~",
+                            id: key + "~AgeInDays~",
                             label: "Today – " + label + " (in days)",
                             type: 'integer',
                             operators: ['equal', 'not_equal', 'greater', 'greater_or_equal', 'between', 'not_between', 'less', 'less_or_equal']
