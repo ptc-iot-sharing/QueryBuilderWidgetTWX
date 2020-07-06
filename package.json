@@ -1,6 +1,6 @@
 {
     "name": "QueryBuilder",
-    "version": "1.2.3",
+    "version": "1.2.1",
     "description": "Query Builder",
     "thingworxServer": "http://localhost:8015",
     "thingworxUser": "Administrator",
