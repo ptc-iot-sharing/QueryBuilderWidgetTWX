@@ -82,7 +82,7 @@ class QueryBuilder extends TWRuntimeWidget {
                 } 
                 switch (this.dataShape.fieldDefinitions[rule.id].baseType) {
                     case 'DATETIME':
-                        filter.value = +moment(rule.value, 'DD/MM/YYYY HH:mm:ss');
+                        filter.value = this.convertDateTimeToTimestamp(rule.value);
                         break;
                     default:
                         filter.value = rule.value;
@@ -111,8 +111,8 @@ class QueryBuilder extends TWRuntimeWidget {
                 } 
                 switch (this.dataShape.fieldDefinitions[rule.id].baseType) {
                     case 'DATETIME':
-                        filter.from = +moment(rule.value[0], 'DD/MM/YYYY HH:mm:ss');
-                        filter.to = +moment(rule.value[1], 'DD/MM/YYYY HH:mm:ss');
+                        filter.from = this.convertDateTimeToTimestamp(rule.value[0]);
+                        filter.to = this.convertDateTimeToTimestamp(rule.value[1]);
                         break;
                     default:
                         filter.from = rule.value[0];
@@ -151,6 +151,11 @@ class QueryBuilder extends TWRuntimeWidget {
         if (containsValidQuery || isQueryEmpty) {
             this.jqElement.triggerHandler('QueryChanged');
         }
+    }
+
+    convertDateTimeToTimestamp(value) {
+        const momentObject = moment(value, 'DD/MM/YYYY HH:mm:ss');
+        return momentObject.isValid() ? +momentObject : +moment(value);
     }
 
     getQueryState(rules: RuleGroup) {
