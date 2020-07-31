@@ -1,5 +1,5 @@
 // automatically import the css file
-import { ThingworxComposerWidget } from 'typescriptwebpacksupport';
+import { ThingworxComposerWidget } from 'typescriptwebpacksupport/widgetIDESupport';
 
 @ThingworxComposerWidget
 class QueryBuilder extends TWComposerWidget {
