@@ -1,6 +1,8 @@
 import { ThingworxRuntimeWidget, TWProperty } from 'typescriptwebpacksupport/widgetRuntimeSupport'
 import { queryToObject } from './twxQueryToQueryBuilder';
 
+const SPECIAL_CHARS = /(\+|-|&&|\|\||!|\(|\)|\{|\}|\[|\]|\^|"|~|\*|\?|:|\/)/g;
+
 export interface Rule {
     id?: string,
     field: string,
@@ -95,13 +97,13 @@ class QueryBuilder extends TWRuntimeWidget {
                 filter.value = false;
                 break;
             case 'begins_with':
-                filter.value = rule.value + '%';
+                filter.value = rule.value.replace(SPECIAL_CHARS, '\\$&') + '%';
                 break;
             case 'ends_with':
-                filter.value = '%' + rule.value;
+                filter.value = '%' + rule.value.replace(SPECIAL_CHARS, '\\$&');
                 break;
             case 'contains':
-                filter.value = '%' + rule.value + '%';
+                filter.value = '%' + rule.value.replace(SPECIAL_CHARS, '\\$&') + '%';
                 break;
             case 'between':
             case 'not_between':

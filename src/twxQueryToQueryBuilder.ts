@@ -1,5 +1,7 @@
 import { Rule, RuleGroup, TwxQuery } from "./QueryBuilder.runtime";
 
+const ESCAPED_SPECIAL_SYMBOLS = /(\\)((\+|-|&&|\|\||!|\(|\)|\{|\}|\[|\]|\^|"|~|\*|\?|:|\/))/g;
+
 interface GenericTwxQuery {
     query: TwxQuery;
     convertToRule(): Rule | RuleGroup;
@@ -60,7 +62,7 @@ class LikeQuery implements GenericTwxQuery {
         return {
             field: this.query.fieldName,
             operator: rule,
-            value: value,
+            value: value.replace(ESCAPED_SPECIAL_SYMBOLS, '$2'),
             id: this.query.fieldName
         };
     }
