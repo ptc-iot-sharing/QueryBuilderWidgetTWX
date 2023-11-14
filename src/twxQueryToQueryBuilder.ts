@@ -6,7 +6,7 @@ interface GenericTwxQuery {
 }
 
 class ComparisonToQuery implements GenericTwxQuery {
-    comparisionMap = {
+    comparisonMap = {
         EQ: "equal",
         NE: "not_equal",
         GT: "greater",
@@ -18,8 +18,24 @@ class ComparisonToQuery implements GenericTwxQuery {
     convertToRule() {
         return {
             field: this.query.fieldName,
-            operator: this.comparisionMap[this.query.type],
+            operator: this.comparisonMap[this.query.type],
             value: this.query.value,
+            id: this.query.fieldName
+        };
+    }
+}
+
+class CompositionQuery implements GenericTwxQuery {
+    compositionMap = {
+        IN: "in",
+        NOTIN: "not_in"
+    }
+    query: TwxQuery & { values: any[] }
+    convertToRule() {
+        return {
+            field: this.query.fieldName,
+            operator: this.compositionMap[this.query.type],
+            value: this.query.values.join(","),
             id: this.query.fieldName
         };
     }
@@ -27,7 +43,7 @@ class ComparisonToQuery implements GenericTwxQuery {
 
 
 class BetweenQuery implements GenericTwxQuery {
-    comparisionMap = {
+    betweenMap = {
         BETWEEN: "between",
         NOTBETWEEN: "not_between"
     }
@@ -35,7 +51,7 @@ class BetweenQuery implements GenericTwxQuery {
     convertToRule() {
         return {
             field: this.query.fieldName,
-            operator: this.comparisionMap[this.query.type],
+            operator: this.betweenMap[this.query.type],
             value: [this.query.from, this.query.to],
             id: this.query.fieldName
         };
@@ -87,6 +103,8 @@ const queryClasses = {
     GT: ComparisonToQuery,
     GE: ComparisonToQuery,
     NE: ComparisonToQuery,
+    IN: CompositionQuery,
+    NOTIN: CompositionQuery,
     BETWEEN: BetweenQuery,
     NOTBETWEEN: BetweenQuery,
     OR: GroupQuery,
