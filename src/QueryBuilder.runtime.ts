@@ -39,7 +39,9 @@ const ThingworxTypeMap = {
     less: 'LT',
     less_or_equal: 'LE',
     true: 'EQ',
-    false: 'EQ'
+    false: 'EQ',
+    in: 'IN',
+    not_in: 'NOTIN'
 };
 
 declare function moment(...args: any[]): any;
@@ -119,6 +121,10 @@ class QueryBuilder extends TWRuntimeWidget {
                         filter.from = rule.value[0];
                         filter.to = rule.value[1];
                 }
+                break;
+            case 'in':
+            case 'not_in':
+                filter.values = rule.value ? rule.value.split(',').map((r: string) => r.trim()) : rule.value;
                 break;
             default: return undefined;
         }
@@ -229,7 +235,7 @@ class QueryBuilder extends TWRuntimeWidget {
                         (<any>filter).operators = ['equal', 'not_equal'];
                         (<any>filter).input = "select";
                     } else {
-                        (<any>filter).operators = ['equal', "not_equal", 'contains', 'begins_with', 'ends_with'];
+                        (<any>filter).operators = ['equal', "not_equal", 'contains', 'begins_with', 'ends_with', 'in', 'not_in'];
                     }
                     filters.push(filter);
                     break;

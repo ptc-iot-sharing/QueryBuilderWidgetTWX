@@ -1,4 +1,20 @@
-let query = { "filters": { "filters": [{ "fieldName": "host", "type": "EQ", "value": "3" }, { "fieldName": "proto", "type": "LIKE", "value": "4%" }, { "fieldName": "keepalive", "from": 4, "to": 5, "type": "NOTBETWEEN" }, { "fieldName": "port", "from": 5, "to": 5, "type": "BETWEEN" }, { "filters": [{ "fieldName": "name", "type": "EQ", "value": "6" }], "type": "AND" }], "type": "AND" } };
+let query = { 
+    "filters": { 
+        "filters": [
+            { "fieldName": "host", "type": "EQ", "value": "3" }, 
+            { "fieldName": "proto", "type": "LIKE", "value": "4%" }, 
+            { "fieldName": "keepalive", "from": 4, "to": 5, "type": "NOTBETWEEN" }, 
+            { "fieldName": "port", "from": 5, "to": 5, "type": "BETWEEN" }, 
+            { "filters": [{ 
+                "fieldName": "name", 
+                "type": "EQ", 
+                "value": "6" 
+            }], 
+            "type": "AND" }
+        ], 
+        "type": "AND" 
+    } 
+};
 
 
 const SPECIAL_CHARS = /(\+|-|&&|\|\||!|\(|\)|\{|\}|\[|\]|\^|"|~|\*|\?|:|\\|\/)/g;
@@ -60,6 +76,16 @@ class LikeQuery implements GenericTwxQuery {
     }
 }
 
+class InQuery implements GenericTwxQuery {
+    query: TwxQuery & { value: string }
+    convertToSolr() {
+        let queryValues: string[] = this.query.value.split(',').map((value) => { return value.replace(SPECIAL_CHARS, "\\") });
+        return `${this.query.fieldName}:["
+            ${queryValues.join('", "')}
+        "]`;
+    }
+}
+
 class OrQuery implements GenericTwxQuery {
     query: TwxQuery;
     convertToSolr() {
@@ -84,7 +110,9 @@ const queryClasses = {
     NOTBETWEEN: NotBetweenQuery,
     OR: OrQuery,
     AND: AndQuery,
-    LIKE: LikeQuery
+    LIKE: LikeQuery,
+    IN: InQuery,
+    NOTIN: InQuery
 }
 
 export function queryToObject(query: TwxQuery): GenericTwxQuery {
