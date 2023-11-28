@@ -1,7 +1,7 @@
 // automatically import the css file
-import { ThingworxComposerWidget } from 'typescriptwebpacksupport/widgetIDESupport';
+import { TWWidgetDefinition, autoResizable } from "typescriptwebpacksupport/widgetIDESupport";
 
-@ThingworxComposerWidget
+@TWWidgetDefinition('Query Builder', autoResizable)
 class QueryBuilder extends TWComposerWidget {
 
     widgetIconUrl(): string {

@@ -1,4 +1,4 @@
-import { ThingworxRuntimeWidget, TWProperty } from 'typescriptwebpacksupport/widgetRuntimeSupport'
+import { TWWidgetDefinition, TWProperty } from 'typescriptwebpacksupport/widgetRuntimeSupport'
 import { queryToObject } from './twxQueryToQueryBuilder';
 
 export interface Rule {
@@ -47,9 +47,12 @@ const ThingworxTypeMap = {
 declare function moment(...args: any[]): any;
 
 
-@ThingworxRuntimeWidget
+@TWWidgetDefinition
 class QueryBuilder extends TWRuntimeWidget {
-
+    /**
+     * A promise that will resolve after the libraries are loaded
+     */
+    private afterRenderPromise: Promise<void>;
     /**
      * The data shape.
      */
@@ -202,6 +205,7 @@ class QueryBuilder extends TWRuntimeWidget {
     };
 
     @TWProperty('Data') set data(data: TWInfotable) {
+      this.afterRenderPromise.then(() => {
         if (!data) return;
 
         // Check to see if an update is required
@@ -326,19 +330,24 @@ class QueryBuilder extends TWRuntimeWidget {
             this.setProperty("ContainsValidQuery", false);
             this.setProperty("IsQueryEmpty", true);
         }
+      });
     }
 
     renderHtml(): string {
-        require("./styles/runtime.css");
-        require("./styles/query-builder.default.min.css");
-        require("./styles/no-bootstrap.css");
-        require('jQuery-QueryBuilder');
-        return '<div class="widget-content widget-demo"></div>';
+        return '<div class="widget-content widget-query-builder"></div>';
     };
 
     async afterRender(): Promise<void> {
+        let resolve: () => void;
+        this.afterRenderPromise = new Promise((r) => (resolve = r));
+
+        await import ("./styles/runtime.css");
+        await import ("./styles/query-builder.default.min.css");
+        await import ("./styles/no-bootstrap.css");
+        await import ('jQuery-QueryBuilder');
         this.setProperty("ContainsValidQuery", false);
         this.setProperty("IsQueryEmpty", true);
+        resolve()
     }
 
     serviceInvoked(name: string): void { }
