@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/ptc-iot-sharing/QueryBuilderWidgetTWX/compare/v1.3.1...v1.3.2) (2023-11-30)
+
+
+### Bug Fixes
+
+* trigger a new release, this time including a good production build ([b700460](https://github.com/ptc-iot-sharing/QueryBuilderWidgetTWX/commit/b700460f6b94fb92e3f207f134c56e6f9db0854b))
+
 ## [1.3.1](https://github.com/ptc-iot-sharing/QueryBuilderWidgetTWX/compare/v1.3.0...v1.3.1) (2023-11-30)
 
 
