@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/ptc-iot-sharing/QueryBuilderWidgetTWX/compare/v1.3.2...v1.4.0) (2024-07-16)
+
+
+### Features
+
+* allow a custom date format to be specified for the dates ([#45](https://github.com/ptc-iot-sharing/QueryBuilderWidgetTWX/issues/45)) ([6a1d443](https://github.com/ptc-iot-sharing/QueryBuilderWidgetTWX/commit/6a1d4436ff069fb98027b3ece4eca2ace4c3e7dc))
+
 ## [1.3.2](https://github.com/ptc-iot-sharing/QueryBuilderWidgetTWX/compare/v1.3.1...v1.3.2) (2023-11-30)
 
 
