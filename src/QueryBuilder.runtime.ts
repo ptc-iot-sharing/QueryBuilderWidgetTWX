@@ -164,7 +164,7 @@ class QueryBuilder extends TWRuntimeWidget {
     }
 
     convertDateTimeToTimestamp(value) {
-        const momentObject = moment(value, this.datePickerFormat || 'YYYY-MM-DD HH:mm:ss');
+        const momentObject = moment(value, this.datePickerFormat);
         return momentObject.isValid() ? +momentObject : +moment(value);
     }
 
@@ -294,11 +294,11 @@ class QueryBuilder extends TWRuntimeWidget {
                             let inputs = rule.$el.find('input');
                             if(inputs.length == 1) {
                                 // this is a normal range filter
-                                inputs.val(moment(value).format(this.datePickerFormat || 'YYYY-MM-DD HH:mm:ss'));
+                                inputs.val(moment(value).format(this.datePickerFormat));
                             } else if(inputs.length == 2 && value.length == 2) {
                                 // this is a between filter
-                                inputs.eq(0).val(moment(value[0]).format(this.datePickerFormat || 'YYYY-MM-DD HH:mm:ss'));
-                                inputs.eq(1).val(moment(value[1]).format(this.datePickerFormat || 'YYYY-MM-DD HH:mm:ss'));
+                                inputs.eq(0).val(moment(value[0]).format(this.datePickerFormat));
+                                inputs.eq(1).val(moment(value[1]).format(this.datePickerFormat));
                             }
                         },
                         operators: ['equal', 'not_equal', 'greater', 'greater_or_equal', 'between', 'not_between', 'less', 'less_or_equal']
