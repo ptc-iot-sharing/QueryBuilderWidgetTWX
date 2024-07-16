@@ -164,7 +164,7 @@ class QueryBuilder extends TWRuntimeWidget {
     }
 
     convertDateTimeToTimestamp(value) {
-        const momentObject = moment(value, 'DD/MM/YYYY HH:mm:ss');
+        const momentObject = moment(value, this.datePickerFormat || 'YYYY-MM-DD HH:mm:ss');
         return momentObject.isValid() ? +momentObject : +moment(value);
     }
 
@@ -203,6 +203,11 @@ class QueryBuilder extends TWRuntimeWidget {
     set useRowsAsValues(use: boolean) {
 
     };
+
+    @TWProperty('DatePickerFormat')
+    set datePickerFormat(format: string) {
+
+    }
 
     @TWProperty('Data') set data(data: TWInfotable) {
       this.afterRenderPromise.then(() => {
@@ -283,17 +288,17 @@ class QueryBuilder extends TWRuntimeWidget {
                         plugin: 'datetimepicker',
                         plugin_config: {
                             timeFormat: 'hh:mm:ss',
-                            dateFormat: 'dd/mm/yy'
+                            dateFormat: 'yy-mm-dd'
                         },
                         valueSetter: (rule, value) => {
                             let inputs = rule.$el.find('input');
                             if(inputs.length == 1) {
                                 // this is a normal range filter
-                                inputs.val(moment(value).format("DD/MM/YYYY HH:mm:ss"));
+                                inputs.val(moment(value).format(this.datePickerFormat || 'YYYY-MM-DD HH:mm:ss'));
                             } else if(inputs.length == 2 && value.length == 2) {
                                 // this is a between filter
-                                inputs.eq(0).val(moment(value[0]).format("DD/MM/YYYY HH:mm:ss"));
-                                inputs.eq(1).val(moment(value[1]).format("DD/MM/YYYY HH:mm:ss"));
+                                inputs.eq(0).val(moment(value[0]).format(this.datePickerFormat || 'YYYY-MM-DD HH:mm:ss'));
+                                inputs.eq(1).val(moment(value[1]).format(this.datePickerFormat || 'YYYY-MM-DD HH:mm:ss'));
                             }
                         },
                         operators: ['equal', 'not_equal', 'greater', 'greater_or_equal', 'between', 'not_between', 'less', 'less_or_equal']
