@@ -205,9 +205,7 @@ class QueryBuilder extends TWRuntimeWidget {
     };
 
     @TWProperty('DatePickerFormat')
-    set datePickerFormat(format: string) {
-
-    }
+    datePickerFormat: string;
 
     @TWProperty('Data') set data(data: TWInfotable) {
       this.afterRenderPromise.then(() => {
@@ -352,6 +350,9 @@ class QueryBuilder extends TWRuntimeWidget {
         await import ('jQuery-QueryBuilder');
         this.setProperty("ContainsValidQuery", false);
         this.setProperty("IsQueryEmpty", true);
+        if(!this.datePickerFormat) {
+            this.setProperty("DatePickerFormat", 'DD/MM/YYYY HH:mm:ss')
+        }
         resolve()
     }
 
