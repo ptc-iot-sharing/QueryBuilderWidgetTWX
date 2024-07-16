@@ -84,6 +84,12 @@ class QueryBuilder extends TWComposerWidget {
                     baseType: 'BOOLEAN',
                     description: 'The current query is empty (no rules)',
                     isBindingSource: true
+                },
+                DatePickerFormat: {
+                    baseType: 'STRING',
+                    description: 'Display format for date values selected in a query',
+                    isBindingTarget: true,
+                    defaultValue: 'DD/MM/YYYY HH:mm:ss'
                 }
             }
         };
