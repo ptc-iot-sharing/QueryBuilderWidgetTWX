@@ -207,7 +207,7 @@ class QueryBuilder extends TWRuntimeWidget {
     @TWProperty('DatePickerFormat')
     datePickerFormat: string;
 
-    @TWProperty('Data') set data(data: TWInfotable) {
+    dataDidBind(data: TWInfotable) {
       this.afterRenderPromise.then(() => {
         if (!data) return;
 
@@ -377,6 +377,8 @@ class QueryBuilder extends TWRuntimeWidget {
             } else {
                 (<any>this.jqElement).queryBuilder('reset');
             }
+        } else if (info.TargetProperty == "Data") {
+            this.dataDidBind(info.RawSinglePropertyValue);
         }
         this.setProperty(info.TargetProperty, info.RawSinglePropertyValue);
     }
