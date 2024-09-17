@@ -1,6 +1,6 @@
 {
     "name": "QueryBuilder",
-    "version": "1.4.0",
+    "version": "1.4.1",
     "description": "Query Builder",
     "author": "PTC + IQNOX",
     "minimumThingWorxVersion": "6.0.0",

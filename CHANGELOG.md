@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/ptc-iot-sharing/QueryBuilderWidgetTWX/compare/v1.4.0...v1.4.1) (2024-09-17)
+
+
+### Bug Fixes
+
+* when the data is bound from another widget, it would not update the query fields ([dbc8be4](https://github.com/ptc-iot-sharing/QueryBuilderWidgetTWX/commit/dbc8be472143756cd9270d840251cecf83c46e0a))
+
 # [1.4.0](https://github.com/ptc-iot-sharing/QueryBuilderWidgetTWX/compare/v1.3.2...v1.4.0) (2024-07-16)
 
 
