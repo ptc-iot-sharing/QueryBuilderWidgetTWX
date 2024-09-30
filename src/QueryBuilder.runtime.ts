@@ -1,5 +1,6 @@
 import { TWWidgetDefinition, TWProperty } from 'typescriptwebpacksupport/widgetRuntimeSupport'
 import { queryToObject } from './twxQueryToQueryBuilder';
+import { format } from 'path';
 
 export interface Rule {
     id?: string,
@@ -279,28 +280,59 @@ class QueryBuilder extends TWRuntimeWidget {
                     break;
                 case 'DATETIME':
                     let label = this.useDescriptions ? this.dataShape.fieldDefinitions[key].description || key : key;
-                    filters.push({
-                        id: key,
-                        label: label,
-                        type: 'datetime',
-                        plugin: 'datetimepicker',
-                        plugin_config: {
-                            timeFormat: 'hh:mm:ss',
-                            dateFormat: 'yy-mm-dd'
-                        },
-                        valueSetter: (rule, value) => {
-                            let inputs = rule.$el.find('input');
-                            if(inputs.length == 1) {
-                                // this is a normal range filter
-                                inputs.val(moment(value).format(this.datePickerFormat));
-                            } else if(inputs.length == 2 && value.length == 2) {
-                                // this is a between filter
-                                inputs.eq(0).val(moment(value[0]).format(this.datePickerFormat));
-                                inputs.eq(1).val(moment(value[1]).format(this.datePickerFormat));
-                            }
-                        },
-                        operators: ['equal', 'not_equal', 'greater', 'greater_or_equal', 'between', 'not_between', 'less', 'less_or_equal']
-                    });
+                    const datepicker = this.getProperty("DatePickerFormat");
+                    // let date = datepicker.split(" ");
+                    const regex: RegExp = /\s\w/;
+                    const hasTimeAfterDate: boolean = regex.test(datepicker);
+                    if(hasTimeAfterDate) {
+                        filters.push({
+                            id: key,
+                            label: label,
+                            type: 'datetime',
+                            plugin: 'datetimepicker',
+                            plugin_config: {
+                                timeFormat: 'hh:mm:ss',
+                                dateFormat: 'yy-mm-dd'
+                            },
+                            valueSetter: (rule, value) => {
+                                let inputs = rule.$el.find('input');
+                                if(inputs.length == 1) {
+                                    // this is a normal range filter
+                                    inputs.val(moment(value).format(this.datePickerFormat));
+                                } else if(inputs.length == 2 && value.length == 2) {
+                                    // this is a between filter
+                                    inputs.eq(0).val(moment(value[0]).format(this.datePickerFormat));
+                                    inputs.eq(1).val(moment(value[1]).format(this.datePickerFormat));
+                                }
+                            },
+                            operators: ['equal', 'not_equal', 'greater', 'greater_or_equal', 'between', 'not_between', 'less', 'less_or_equal']
+                        });
+                    } else {
+                        filters.push({
+                            id: key,
+                            label: label,
+                            plugin: 'datepicker',
+                            plugin_config: {
+                                format: 'yyyy/mm/dd',
+                                todayBtn: 'linked',
+                                todayHighlight: true,
+                                autoclose: true
+                            },
+                            valueSetter: (rule, value) => {
+                                let inputs = rule.$el.find('input');
+                                if(inputs.length == 1) {
+                                    // this is a normal range filter
+                                    inputs.val(moment(value).format(this.datePickerFormat));
+                                } else if(inputs.length == 2 && value.length == 2) {
+                                    // this is a between filter
+                                    inputs.eq(0).val(moment(value[0]).format(this.datePickerFormat));
+                                    inputs.eq(1).val(moment(value[1]).format(this.datePickerFormat));
+                                }
+                            },
+                            operators: ['equal', 'not_equal', 'greater', 'greater_or_equal', 'between', 'not_between', 'less', 'less_or_equal']
+                        });
+                    }
+                    
                     if(this.getProperty("EnableDateTimeAgeFilter")) {
                         filters.push({
                             id: key + "~AgeInDays~",
@@ -351,7 +383,7 @@ class QueryBuilder extends TWRuntimeWidget {
         this.setProperty("ContainsValidQuery", false);
         this.setProperty("IsQueryEmpty", true);
         if(!this.datePickerFormat) {
-            this.setProperty("DatePickerFormat", 'DD/MM/YYYY HH:mm:ss')
+            this.setProperty("DatePickerFormat", 'DD/MM/YYYY')
         }
         resolve()
     }

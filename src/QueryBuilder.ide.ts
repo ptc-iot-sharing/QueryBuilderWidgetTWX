@@ -89,7 +89,7 @@ class QueryBuilder extends TWComposerWidget {
                     baseType: 'STRING',
                     description: 'Display format for date values selected in a query',
                     isBindingTarget: true,
-                    defaultValue: 'DD/MM/YYYY HH:mm:ss'
+                    defaultValue: 'DD/MM/YYYY'
                 }
             }
         };
