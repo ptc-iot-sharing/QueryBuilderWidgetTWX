@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/ptc-iot-sharing/QueryBuilderWidgetTWX/compare/v1.4.1...v1.5.0) (2024-10-01)
+
+
+### Features
+
+* **date_format:** allow the user to specify if time should be selectable in the date time picker by specifying a `DatePickerFormat` with  no time component ([be3a040](https://github.com/ptc-iot-sharing/QueryBuilderWidgetTWX/commit/be3a040d8c543453ccf0849ebb49dc04a868ded3))
+
 ## [1.4.1](https://github.com/ptc-iot-sharing/QueryBuilderWidgetTWX/compare/v1.4.0...v1.4.1) (2024-09-17)
 
 
