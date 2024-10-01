@@ -1,6 +1,5 @@
 import { TWWidgetDefinition, TWProperty } from 'typescriptwebpacksupport/widgetRuntimeSupport'
 import { queryToObject } from './twxQueryToQueryBuilder';
-import { format } from 'path';
 
 export interface Rule {
     id?: string,
@@ -280,9 +279,9 @@ class QueryBuilder extends TWRuntimeWidget {
                     break;
                 case 'DATETIME':
                     const label = this.useDescriptions ? this.dataShape.fieldDefinitions[key].description || key : key;
-                    const datepicker = this.getProperty("DatePickerFormat");
+                    const datepickerFormat = this.getProperty('DatePickerFormat');
                     const regex: RegExp = /\s\w/;
-                    const hasTimeAfterDate: boolean = regex.test(datepicker);
+                    const hasTimeAfterDate: boolean = regex.test(datepickerFormat);
 
                     const commonFilterConfig = {
                         id: key,
@@ -302,18 +301,18 @@ class QueryBuilder extends TWRuntimeWidget {
                     };
 
                     const dateFilterConfig = hasTimeAfterDate ? {
-                    ...commonFilterConfig,
-                    type: 'datetime',
-                    plugin: 'datetimepicker',
+                        ...commonFilterConfig,
+                        type: 'datetime',
+                        plugin: 'datetimepicker',
                         plugin_config: {
                             timeFormat: 'hh:mm:ss',
-                            dateFormat: 'yy-mm-dd'
+                            dateFormat: 'yy-mm-dd',
                         }
                     } : {
-                    ...commonFilterConfig,
-                    plugin: 'datepicker',
+                        ...commonFilterConfig,
+                        plugin: 'datepicker',
                         plugin_config: {
-                            format: 'yyyy/mm/dd',
+                            dateFormat: 'yy-mm-dd',
                             todayBtn: 'linked',
                             todayHighlight: true,
                             autoclose: true
@@ -372,7 +371,7 @@ class QueryBuilder extends TWRuntimeWidget {
         this.setProperty("ContainsValidQuery", false);
         this.setProperty("IsQueryEmpty", true);
         if(!this.datePickerFormat) {
-            this.setProperty("DatePickerFormat", 'DD/MM/YYYY')
+            this.setProperty('DatePickerFormat', 'DD/MM/YYYY HH:mm:ss');
         }
         resolve()
     }
